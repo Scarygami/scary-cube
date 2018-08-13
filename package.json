@@ -1,0 +1,13 @@
+{
+  "name": "scary-cube-demo",
+  "description": "Demo page for scary-cube",
+  "dependencies": {
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.21",
+    "@polymer/polymer": "^3.0.0",
+    "@scarygami/scary-cube": "^1.0.0"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "wct-browser-legacy": "^1.0.0"
+  }
+}

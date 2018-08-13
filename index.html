@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>scary-cube demo</title>
+
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <script type="module">
+      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+      import '@polymer/iron-demo-helpers/demo-snippet';
+      import '@scarygami/scary-cube/scary-cube';
+    </script>
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        scary-cube {
+          width: 100%;
+          height: 500px;
+        }
+
+        button {
+          width: 2.5em;
+        }
+
+        #sequence, #start, #reset {
+          width: 100%;
+        }
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic scary-cube demo</h3>
+      <demo-snippet>
+        <template>
+          <scary-cube></scary-cube>
+        </template>
+      </demo-snippet>
+      <table>
+        <tr>
+          <td><button>U</button></td>
+          <td><button>D</button></td>
+          <td><button>L</button></td>
+          <td><button>R</button></td>
+          <td><button>F</button></td>
+          <td><button>B</button></td>
+          <td><button>u</button></td>
+          <td><button>d</button></td>
+          <td><button>l</button></td>
+          <td><button>r</button></td>
+          <td><button>f</button></td>
+          <td><button>b</button></td>
+          <td><button>M</button></td>
+          <td><button>E</button></td>
+          <td><button>S</button></td>
+          <td><button>x</button></td>
+          <td><button>y</button></td>
+          <td><button>z</button></td>
+        </tr>
+        <tr>
+          <td><button>U'</button></td>
+          <td><button>D'</button></td>
+          <td><button>L'</button></td>
+          <td><button>R'</button></td>
+          <td><button>F'</button></td>
+          <td><button>B'</button></td>
+          <td><button>u'</button></td>
+          <td><button>d'</button></td>
+          <td><button>l'</button></td>
+          <td><button>r'</button></td>
+          <td><button>f'</button></td>
+          <td><button>b'</button></td>
+          <td><button>M'</button></td>
+          <td><button>E'</button></td>
+          <td><button>S'</button></td>
+          <td><button>x'</button></td>
+          <td><button>y'</button></td>
+          <td><button>z'</button></td>
+        </tr>
+        <tr>
+          <td><button>U2</button></td>
+          <td><button>D2</button></td>
+          <td><button>L2</button></td>
+          <td><button>R2</button></td>
+          <td><button>F2</button></td>
+          <td><button>B2</button></td>
+          <td><button>u2</button></td>
+          <td><button>d2</button></td>
+          <td><button>l2</button></td>
+          <td><button>r2</button></td>
+          <td><button>f2</button></td>
+          <td><button>b2</button></td>
+          <td><button>M2</button></td>
+          <td><button>E2</button></td>
+          <td><button>S2</button></td>
+          <td><button>x2</button></td>
+          <td><button>y2</button></td>
+          <td><button>z2</button></td>
+        </tr>
+        <tr>
+          <td colspan="14"><input id="sequence" value="D' U' L R2 F' D' R F' D F2 L B D2 L2 B' R2 F2 B R B F2 L2 R B' F2"></td>
+          <td colspan="2"><button id="start">Start</button></td>
+          <td colspan="2"><button id="reset">Reset</button></td>
+        </tr>
+      </table>
+    </div>
+    <script>
+      (function () {
+        function makeMove(e) {
+          document.querySelector('scary-cube').addMove(e.target.textContent);
+        }
+
+        var buttons = document.querySelectorAll('button');
+        for (var b = 0; b < buttons.length; b++) {
+          buttons[b].onclick = makeMove;
+        }
+
+        document.querySelector('#start').onclick = function () {
+          var sequence = document.querySelector("#sequence").value;
+          document.querySelector('scary-cube').addMoves(sequence);
+        }
+
+        document.querySelector('#reset').onclick = function () {
+          document.querySelector('scary-cube').reset();
+        }
+
+
+      }());
+    </script>
+  </body>
+</html>

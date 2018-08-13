@@ -1,0 +1,19 @@
+{
+  "npm": true,
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "builds": [{
+    "js": {"minify": true, "compile": true},
+    "css": {"minify": true},
+    "html": {"minify": true},
+    "bundle": true,
+    "addServiceWorker": false,
+    "addPushManifest": false
+  }],
+  "extraDependencies": [
+    "node_modules/@webcomponents/webcomponentsjs/**"
+  ]
+}
