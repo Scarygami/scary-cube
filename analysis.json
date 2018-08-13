@@ -1,0 +1,508 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "`scary-cube`\n\nRubik's Cube implemented as Polymer Element.\n\nNeeds to be sized (best by fitting it into a parent element) to correctly display and scale.\n\nOrientation of cube can be changed with mouse and touch gestures.\n\nMoves need to be performed using the `addMove` or `addMoves` methods, using SiGN notation.\n\nColors of the cube can be changed using the following custom CSS properties, matching the sides of the cube\n```\n--cube-color-u\n--cube-color-d\n--cube-color-f\n--cube-color-b\n--cube-color-l\n--cube-color-r\n```",
+      "summary": "",
+      "path": "scary-cube.js",
+      "properties": [
+        {
+          "name": "isSolved",
+          "type": "Boolean",
+          "description": "Returns true if the cube is in a solved state, i.e. each side has one color.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 283,
+              "column": 2
+            },
+            "end": {
+              "line": 294,
+              "column": 3
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "name": "faces",
+          "type": "Array",
+          "description": "Returns a representation of the current state of the cube",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 301,
+              "column": 2
+            },
+            "end": {
+              "line": 303,
+              "column": 3
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "name": "_faces",
+          "type": "Array | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 251,
+              "column": 6
+            },
+            "end": {
+              "line": 251,
+              "column": 19
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Array"
+            }
+          }
+        },
+        {
+          "name": "_scaleFactor",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 252,
+              "column": 6
+            },
+            "end": {
+              "line": 252,
+              "column": 26
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          }
+        },
+        {
+          "name": "_rotX",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 253,
+              "column": 6
+            },
+            "end": {
+              "line": 253,
+              "column": 19
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          }
+        },
+        {
+          "name": "_rotY",
+          "type": "number | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 254,
+              "column": 6
+            },
+            "end": {
+              "line": 254,
+              "column": 19
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Number"
+            }
+          }
+        },
+        {
+          "name": "_moveClass",
+          "type": "string | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 255,
+              "column": 6
+            },
+            "end": {
+              "line": 255,
+              "column": 24
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "String"
+            }
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 319,
+              "column": 2
+            },
+            "end": {
+              "line": 325,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "disconnectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 327,
+              "column": 2
+            },
+            "end": {
+              "line": 332,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_render",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 334,
+              "column": 2
+            },
+            "end": {
+              "line": 510,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "{\n  _faces,\n  _scaleFactor,\n  _rotX,\n  _rotY,\n  _moveClass\n}"
+            }
+          ]
+        },
+        {
+          "name": "_resizeHandler",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 512,
+              "column": 2
+            },
+            "end": {
+              "line": 515,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_trackHandler",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 517,
+              "column": 2
+            },
+            "end": {
+              "line": 537,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_viewportStyle",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 539,
+              "column": 2
+            },
+            "end": {
+              "line": 541,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "scaleFactor"
+            }
+          ]
+        },
+        {
+          "name": "_cubeStyle",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 543,
+              "column": 2
+            },
+            "end": {
+              "line": 547,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "rotX"
+            },
+            {
+              "name": "rotY"
+            },
+            {
+              "name": "scaleFactor"
+            }
+          ]
+        },
+        {
+          "name": "_faceClasslist",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 549,
+              "column": 2
+            },
+            "end": {
+              "line": 551,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "face"
+            },
+            {
+              "name": "v"
+            },
+            {
+              "name": "h"
+            },
+            {
+              "name": "color"
+            }
+          ]
+        },
+        {
+          "name": "addMoves",
+          "description": "Adds multiple moves to the queue of moves to be performed.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 559,
+              "column": 2
+            },
+            "end": {
+              "line": 577,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "moves",
+              "type": "(String | Array)",
+              "description": "Array or space separated String of moves in SiGN notation"
+            },
+            {
+              "name": "silent",
+              "type": "Boolean",
+              "description": "If true, the cube will not be animated for these moves"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "addMove",
+          "description": "Adds a single move to the queue of moves to be performed.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 585,
+              "column": 2
+            },
+            "end": {
+              "line": 597,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "move",
+              "type": "String",
+              "description": "Move to perform in SiGN notation"
+            },
+            {
+              "name": "silent",
+              "type": "Boolean",
+              "description": "If true, the cube will not be animated for this move"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "reset",
+          "description": "Reset the cube to its solved state",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 602,
+              "column": 2
+            },
+            "end": {
+              "line": 608,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_performMove",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 622,
+              "column": 2
+            },
+            "end": {
+              "line": 700,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "_transitionHandler",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 702,
+              "column": 2
+            },
+            "end": {
+              "line": 709,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/index.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 247,
+          "column": 0
+        },
+        "end": {
+          "line": 710,
+          "column": 1
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "ScaryCube",
+      "attributes": [],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "cube-solved",
+          "description": "Fired when the cube has been solved",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "move-finished",
+          "description": "Fired when a move has finished",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "scary-cube"
+    }
+  ]
+}

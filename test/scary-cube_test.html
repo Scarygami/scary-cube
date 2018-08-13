@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>scary-cube test</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <script type="module" src="../scary-cube.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="TestFixture">
+      <template>
+        <scary-cube></scary-cube>
+      </template>
+    </test-fixture>
+
+    <script type="module">
+      suite('scary-cube', () => {
+        var element;
+
+        setup(() => {
+          element = fixture('TestFixture');
+        });
+
+        test('instantiating the element has a solved cube', () => {
+          assert.equal(element.isSolved, true);
+        });
+
+        test('performing a move fires the `move-finished` event', (done) => {
+         // Create a test fixture
+         element.addEventListener('move-finished', () => {
+            done();
+          });
+          element.addMove('U', true);
+        })
+
+        test('moves make the cube unsolved', (done) => {
+          // Create a test fixture
+          element.addEventListener('move-finished', () => {
+            assert.equal(element.isSolved, false);
+            done();
+          });
+          element.addMove('U', true);
+        });
+
+        test('solving the cube fires the `cube-solved` event', (done) => {
+          element.addEventListener('cube-solved', () => {
+            assert.equal(element.isSolved, true);
+            done();
+          });
+          element.addMoves("U U'", true);
+        })
+
+        test('invalid moves are ignored on addMove', () => {
+          element.addMove('q');
+          assert.equal(element._queue.length, 0);
+        });
+
+        test('invalid moves are ignored on addMoves', () => {
+          element.addMoves('q U xx U2');
+          assert.equal(element._queue.length, 2);
+        });
+
+      });
+    </script>
+
+  </body>
+</html>
