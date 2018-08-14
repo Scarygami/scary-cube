@@ -1,6 +1,6 @@
 {
   "name": "@scarygami/scary-cube",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "scary-cube: Polymer Rubik's Cube",
   "main": "scary-cube.js",
   "homepage": "https://github.com/Scarygami/scary-cube/",

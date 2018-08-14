@@ -573,6 +573,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       this._queue.push({move: move, silent: silent});
     });
     if (!this.moving) {
+      this.moving = true;
       afterNextRender(this, this._boundMoveHandler);
     }
   }
@@ -593,6 +594,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     }
     this._queue.push({move: move, silent: silent});
     if (!this.moving) {
+      this.moving = true;
       afterNextRender(this, this._boundMoveHandler);
     }
   }
