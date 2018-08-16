@@ -233,14 +233,26 @@ const transitionClasses = {
  * Moves need to be performed using the `addMove` or `addMoves` methods, using SiGN notation.
  *
  * Colors of the cube can be changed using the following custom CSS properties, matching the sides of the cube
+ *
  * ```
- * --cube-color-u
- * --cube-color-d
- * --cube-color-f
- * --cube-color-b
- * --cube-color-l
- * --cube-color-r
+ * scary-cube {
+ *   --cube-color-u: white;
+ *   --cube-color-d: yellow;
+ *   --cube-color-f: green;
+ *   --cube-color-b: #3333FF;
+ *   --cube-color-l: orange;
+ *   --cube-color-r: red;
+ * }
  * ```
+ *
+ * Additionaly the speed of the move animations can be adjusted with the `--cube-speed` parameter
+ *
+ * ```
+ * scary-cube {
+ *   --cube-speed: 0.4s;
+ * }
+ * ```
+ *
  * @customElement
  * @polymer
  * @demo demo/index.html
@@ -455,10 +467,10 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         .orange { background-color: var(--cube-color-l, orange); }
 
         .move-fast {
-          transition: all 0.4s ease;
+          transition: all var(--cube-speed, 0.4s) ease;
         }
         .move-slow {
-          transition: all 0.8s ease;
+          transition: all calc(2 * var(--cube-speed, 0.4s)) ease;
         }
         .move-ycc {
           transform: rotateY(90deg);

@@ -11,10 +11,20 @@ Moves need to be performed using the `addMove` or `addMoves` methods, using SiGN
 Colors of the cube can be changed using the following custom CSS properties, matching the sides of the cube
 
 ```
---cube-color-u
---cube-color-d
---cube-color-f
---cube-color-b
---cube-color-l
---cube-color-r
+scary-cube {
+  --cube-color-u: white;
+  --cube-color-d: yellow;
+  --cube-color-f: green;
+  --cube-color-b: #3333FF;
+  --cube-color-l: orange;
+  --cube-color-r: red;
+}
+```
+
+Additionaly the speed of the move animations can be adjusted with the `--cube-speed` parameter
+
+```
+scary-cube {
+  --cube-speed: 0.4s;
+}
 ```
