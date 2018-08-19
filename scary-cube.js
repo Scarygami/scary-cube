@@ -2,6 +2,7 @@ import {LitElement, html} from '@polymer/lit-element';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
+import ResizeObserver from 'resize-observer-polyfill';
 
 const sides = ['u', 'd', 'r', 'l', 'f', 'b'];
 const vPos = ['top', 'middle', 'bottom'];
@@ -322,6 +323,8 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     this._boundTransitionHandler = this._transitionHandler.bind(this);
     this._boundMoveHandler = this._performMove.bind(this);
 
+    this._resizeObserver = new ResizeObserver(this._boundResizeHandler);
+
     this._faces = ScaryCube.solvedCube;
     this._queue = [];
     this._rotX = -25;
@@ -333,13 +336,12 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     super.connectedCallback();
 
     Gestures.addListener(this, 'track', this._boundTrackHandler);
-    window.addEventListener('resize', this._boundResizeHandler, true);
-    afterNextRender(this, this._boundResizeHandler);
+    this._resizeObserver.observe(this);
   }
 
   disconnectedCallback() {
     Gestures.removeListener(this, 'track', this._boundTrackHandler);
-    window.removeEventListener('resize', this._boundResizeHandler, true);
+    this._resizeObserver.unobserve(this);
 
     super.disconnectedCallback();
   }
@@ -522,29 +524,43 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       </div>`;
   }
 
-  _resizeHandler() {
-    let vp = this.shadowRoot.getElementById('viewport');
-    this._scaleFactor = Math.min(vp.offsetWidth / 500, vp.offsetHeight / 500);
+  _resizeHandler(entries) {
+    let height;
+    let width;
+
+    if (entries && entries.length > 0) {
+      entries = entries.filter((entry) => (entry.target === this));
+    }
+    if (entries && entries.length > 0) {
+      width = entries[0].contentRect.width;
+      height = entries[0].contentRect.height;
+    } else {
+      let vp = this.shadowRoot.getElementById('viewport');
+      width = vp.offsetWidth;
+      height = vp.offsetHeight;
+    }
+
+    this._scaleFactor = Math.min(width / 500, height / 500);
   }
 
   _trackHandler(e) {
     switch (e.detail.state) {
       case 'start':
-        this._draggingReversed = (this._rotX < -90 || this._rotX > 90)
+        this._draggingReversed = (this._rotX < -90 || this._rotX > 90);
         break;
 
       case 'track':
-          this._rotX -= e.detail.ddy * 0.5;
-          if (this._rotX > 180) { this._rotX -= 360; }
-          if (this._rotX < -180) { this._rotX += 360; }
+        this._rotX -= e.detail.ddy * 0.5;
+        if (this._rotX > 180) { this._rotX -= 360; }
+        if (this._rotX < -180) { this._rotX += 360; }
 
-          if (this._draggingReversed) {
-            this._rotY -= e.detail.ddx * 0.5;
-          } else {
-            this._rotY += e.detail.ddx * 0.5;
-          }
-          if (this._rotY > 180) { this._rotY -= 360; }
-          if (this._rotY < -180) { this._rotY += 360; }
+        if (this._draggingReversed) {
+          this._rotY -= e.detail.ddx * 0.5;
+        } else {
+          this._rotY += e.detail.ddx * 0.5;
+        }
+        if (this._rotY > 180) { this._rotY -= 360; }
+        if (this._rotY < -180) { this._rotY += 360; }
         break;
     }
   }
@@ -647,7 +663,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     const move = this._queue.shift();
     if (!move) {
       // queue is empty, stop for now
-      this.moving = false
+      this.moving = false;
       return;
     }
 

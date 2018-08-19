@@ -8,7 +8,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@polymer/lit-element": "^0.5.2",
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.0.0",
+    "resize-observer-polyfill": "^1.5.0"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^3.0.0-pre.20",
