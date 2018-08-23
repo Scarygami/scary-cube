@@ -271,7 +271,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   static get solvedCube() {
-    let faces = [];
+    const faces = [];
 
     sides.forEach((side, index) => {
       vPos.forEach((v) => {
@@ -295,7 +295,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
    * @return {Boolean}
    */
   get isSolved() {
-    let colorCheck = {};
+    const colorCheck = {};
     for (let f = 0; f < this._faces.length; f++) {
       if (!colorCheck[this._faces[f].side]) {
         colorCheck[this._faces[f].side] = this._faces[f].color;
@@ -308,12 +308,67 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   /**
-   * Returns a representation of the current state of the cube
+   * Returns or sets the current state of the cube.
+   *
+   * Throws erros when trying to set an invalid state.
    *
    * @return {Array}
    */
   get faces() {
     return JSON.parse(JSON.stringify(this._faces));
+  }
+
+  set faces(input) {
+    const faces = [];
+    const check = {};
+    const colorCheck = [0, 0, 0, 0, 0, 0];
+    if (input.length !== 54) {
+      throw new Error('Faces needs to be an array of length 54.')
+    }
+
+    input.forEach((face) => {
+      if (!face.side || !face.vPos || !face.hPos || !face.color) {
+        throw new Error('Each face needs to have the fields side, vPos, hPos and color.')
+      }
+      if (sides.indexOf(face.side) < 0) {
+        throw new Error(`Encountered invalid value for side: ${face.side}`);
+      }
+      if (vPos.indexOf(face.vPos) < 0) {
+        throw new Error(`Encountered invalid value for vPos: ${face.vPos}`);
+      }
+      if (hPos.indexOf(face.hPos) < 0) {
+        throw new Error(`Encountered invalid value for hPos: ${face.hPos}`);
+      }
+
+      const colorIndex = colors.indexOf(face.color);
+      if (colorIndex < 0) {
+        throw new Error(`Encountered invalid value for color: ${face.color}`);
+      }
+      if (colorCheck[colorIndex] >= 9) {
+        throw new Error(`Color ${face.color} appears more than 9 times`);
+      }
+      colorCheck[colorIndex]++;
+
+      if (check[`${face.side} ${face.vPos} ${face.hPos}`]) {
+        throw new Error(`Encountered duplicate face: ${face.side} ${face.vPos} ${face.hPos}`);
+      }
+      check[`${face.side} ${face.vPos} ${face.hPos}`] = true;
+
+      faces.push({
+        side: face.side,
+        vPos: face.vPos,
+        hPos: face.hPos,
+        color: face.color,
+        moving: false
+      });
+    });
+
+    if (this.moving) {
+      this.moving = false;
+      this._queue = [];
+    }
+    this._moveClass = '';
+    this._faces = faces;
   }
 
   constructor() {
@@ -347,7 +402,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   _render ({_faces, _scaleFactor, _rotX, _rotY, _moveClass}) {
-    let style = html`
+    const style = html`
       <style>
         :host {
           display: block;
@@ -503,8 +558,8 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         }
       </style>`;
 
-    let viewportStyle = this._viewportStyle(_scaleFactor);
-    let cubeStyle = this._cubeStyle(_rotX, _rotY, _scaleFactor);
+    const viewportStyle = this._viewportStyle(_scaleFactor);
+    const cubeStyle = this._cubeStyle(_rotX, _rotY, _scaleFactor);
 
     return html`
       ${style}
@@ -535,7 +590,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       width = entries[0].contentRect.width;
       height = entries[0].contentRect.height;
     } else {
-      let vp = this.shadowRoot.getElementById('viewport');
+      const vp = this.shadowRoot.getElementById('viewport');
       width = vp.offsetWidth;
       height = vp.offsetHeight;
     }
@@ -570,7 +625,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   _cubeStyle(rotX, rotY, scaleFactor) {
-    var transform = 'translate3d(0px, 0px, -100px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+    let transform = 'translate3d(0px, 0px, -100px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
     transform += ' scale3d(' + scaleFactor + ',' + scaleFactor + ',' + scaleFactor + ')';
     return 'transform: ' + transform + ';';
   }
@@ -699,8 +754,8 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       }
     }
 
-    let newFaces = JSON.parse(JSON.stringify(this._faces));
-    let originalFaces = JSON.parse(JSON.stringify(this._faces));
+    const newFaces = JSON.parse(JSON.stringify(this._faces));
+    const originalFaces = JSON.parse(JSON.stringify(this._faces));
 
     steps.forEach((step) => {
       let oldFaces = JSON.parse(JSON.stringify(newFaces));

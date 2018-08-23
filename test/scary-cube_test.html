@@ -66,6 +66,122 @@
           assert.equal(element._queue.length, 2);
         });
 
+        suite('faces setter', () => {
+          test('setting faces works', (done) => {
+            const faces = element.faces;
+
+            element.addEventListener('move-finished', () => {
+              element.faces = faces;
+              const checkFaces = element.faces;
+              assert.deepEqual(faces, checkFaces);
+              done();
+            });
+            element.addMoves('U R L', true);
+          });
+
+          test('setting faces with too few faces throws an error', () => {
+            const faces = [{
+              side: 'u', vPos: 'middle', hPos: 'center', color: 'white'
+            }];
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with missing side throws an error', () => {
+            const faces = element.faces;
+            delete faces[2].side;
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with missing vPos throws an error', () => {
+            const faces = element.faces;
+            delete faces[10].vPos;
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with missing hPos throws an error', () => {
+            const faces = element.faces;
+            delete faces[20].hPos;
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with missing color throws an error', () => {
+            const faces = element.faces;
+            delete faces[31].color;
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with invalid side throws an error', () => {
+            const faces = element.faces;
+            faces[2].side = 'x';
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with invalid vPos throws an error', () => {
+            const faces = element.faces;
+            faces[10].vPos = 'x';
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with invalid hPos throws an error', () => {
+            const faces = element.faces;
+            faces[20].hPos = 'x';
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting faces with invalid color throws an error', () => {
+            const faces = element.faces;
+            faces[31].color = 'x';
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting duplicate faces throws an error', () => {
+            const faces = element.faces;
+            faces[1].side = faces[2].side;
+            faces[1].vPos = faces[2].vPos;
+            faces[1].hPos = faces[2].hPos;
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+
+          test('setting too many same colors throws an error', () => {
+            const faces = element.faces;
+            for (let i = 0; i < 10; i++) {
+              faces[i].color = 'red';
+            }
+
+            assert.throws(() => {
+              element.faces = faces;
+            });
+          });
+        });
       });
     </script>
 
