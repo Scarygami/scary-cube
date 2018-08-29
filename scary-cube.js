@@ -225,7 +225,7 @@ const transitionClasses = {
 /**
  * `scary-cube`
  *
- * Rubik's Cube implemented as Polymer Element.
+ * Rubik's Cube implemented as web component based on lit-element.
  *
  * Needs to be sized (best by fitting it into a parent element) to correctly display and scale.
  *
@@ -266,7 +266,25 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       _scaleFactor: Number,
       _rotX: Number,
       _rotY: Number,
-      _moveClass: String
+      _moveClass: String,
+
+      /**
+       * Disables the display of labels on the center faces.
+       */
+      noFaceLabels: {
+        type: Boolean,
+        attribute: 'no-face-labels',
+        reflect: true
+      },
+
+      /**
+       * Disables gesture events.
+       */
+      noGestures: {
+        type: Boolean,
+        attribute: 'no-gestures',
+        reflect: true
+      }
     };
   }
 
@@ -385,23 +403,32 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     this._rotX = -25;
     this._rotY = -35;
     this._scaleFactor = 1;
+    this.noGestures = false;
+    this.noFaceLabels = false;
   }
 
   connectedCallback() {
     super.connectedCallback();
 
-    Gestures.addListener(this, 'track', this._boundTrackHandler);
     this._resizeObserver.observe(this);
   }
 
-  disconnectedCallback() {
-    Gestures.removeListener(this, 'track', this._boundTrackHandler);
-    this._resizeObserver.unobserve(this);
-
-    super.disconnectedCallback();
+  firstRendered() {
+    this._viewport = this.shadowRoot.getElementById('viewport');
   }
 
-  _render ({_faces, _scaleFactor, _rotX, _rotY, _moveClass}) {
+  update(changedProperties) {
+    super.update();
+    if (changedProperties.has('noGestures')) {
+      if (this.noGestures) {
+        Gestures.removeListener(this, 'track', this._boundTrackHandler);
+      } else {
+        Gestures.addListener(this, 'track', this._boundTrackHandler);
+      }
+    }
+  }
+
+  render() {
     const style = html`
       <style>
         :host {
@@ -524,10 +551,10 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         .orange { background-color: var(--cube-color-l, orange); }
 
         .move-fast {
-          transition: all var(--cube-speed, 0.4s) ease;
+          transition: all var(--cube-speed, 0.2s) ease;
         }
         .move-slow {
-          transition: all calc(2 * var(--cube-speed, 0.4s)) ease;
+          transition: all calc(2 * var(--cube-speed, 0.2s)) ease;
         }
         .move-ycc {
           transform: rotateY(90deg);
@@ -558,25 +585,44 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         }
       </style>`;
 
-    const viewportStyle = this._viewportStyle(_scaleFactor);
-    const cubeStyle = this._cubeStyle(_rotX, _rotY, _scaleFactor);
+    const viewportStyle = this._viewportStyle(this._scaleFactor);
+    const cubeStyle = this._cubeStyle(this._rotX, this._rotY, this._scaleFactor);
 
     return html`
       ${style}
-      <div id="viewport" style$=${viewportStyle}>
-        <div id="cube" style$=${cubeStyle}>
-        <div id="slice" class$=${_moveClass} on-transitionend=${this._boundTransitionHandler}>
-            ${_faces.map((f) => html`
-              <div class$=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} hidden?=${!f.moving}></div>`
+      <div id="viewport" style=${viewportStyle}>
+        <div id="cube" style=${cubeStyle}>
+        <div id="slice" class=${this._moveClass} @transitionend=${this._boundTransitionHandler}>
+            ${this._faces.map((f) => html`
+              <div class=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} ?hidden=${!f.moving}></div>`
             )}
           </div>
-          ${_faces.map((f) => html`
-            <div class$=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} hidden?=${f.moving}>
-              ${(f.vPos === 'middle' && f.hPos === 'center') ? html`${f.side}` : html``}
+          ${this._faces.map((f) => html`
+            <div class=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} ?hidden=${f.moving}>
+              ${(this.noFaceLabels === false && f.vPos === 'middle' && f.hPos === 'center') ? html`${f.side}` : html``}
             </div>`
           )}
         </div>
       </div>`;
+  }
+
+  _viewportStyle(scaleFactor) {
+    return 'perspective: ' + Math.round(800 * scaleFactor) + 'px;';
+  }
+
+  _cubeStyle(rotX, rotY, scaleFactor) {
+    let transform = 'translate3d(0px, 0px, -100px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+    transform += ' scale3d(' + scaleFactor + ',' + scaleFactor + ',' + scaleFactor + ')';
+    return 'transform: ' + transform + ';';
+  }
+
+  _faceClasslist(face, v, h, color) {
+    return 'face ' + face.toLowerCase() + ' ' + v + ' ' + h + ' ' + color;
+  }
+
+  disconnectedCallback() {
+    this._resizeObserver.unobserve(this);
+    Gestures.removeListener(this, 'track', this._boundTrackHandler);
   }
 
   _resizeHandler(entries) {
@@ -590,9 +636,8 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       width = entries[0].contentRect.width;
       height = entries[0].contentRect.height;
     } else {
-      const vp = this.shadowRoot.getElementById('viewport');
-      width = vp.offsetWidth;
-      height = vp.offsetHeight;
+      width = this._viewport.offsetWidth;
+      height = this._viewport.offsetHeight;
     }
 
     this._scaleFactor = Math.min(width / 500, height / 500);
@@ -618,20 +663,6 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         if (this._rotY < -180) { this._rotY += 360; }
         break;
     }
-  }
-
-  _viewportStyle(scaleFactor) {
-    return 'perspective: ' + Math.round(800 * scaleFactor) + 'px;';
-  }
-
-  _cubeStyle(rotX, rotY, scaleFactor) {
-    let transform = 'translate3d(0px, 0px, -100px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
-    transform += ' scale3d(' + scaleFactor + ',' + scaleFactor + ',' + scaleFactor + ')';
-    return 'transform: ' + transform + ';';
-  }
-
-  _faceClasslist(face, v, h, color) {
-    return 'face ' + face.toLowerCase() + ' ' + v + ' ' + h + ' ' + color;
   }
 
   /**
@@ -683,9 +714,20 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   /**
+   * Sets the orientation of the cube.
+   *
+   * @param {Number} rotX Rotation around x-axis as value between -180° and +180°
+   * @param {Number} rotY Rotation around y-axis as value between -180° and +180°
+   */
+  setOrientation(rotX, rotY) {
+    this._rotX = rotX;
+    this._rotY = rotY;
+  }
+
+  /**
    * Reset the cube to its solved state
    */
-  reset () {
+  reset() {
     if (this.moving) {
       this.moving = false;
       this._queue = [];
@@ -786,7 +828,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     }
   }
 
-  _transitionHandler () {
+  _transitionHandler() {
     if (this.moving) {
       this._faces = this._newFaces;
       this._moveClass = '';

@@ -1,6 +1,6 @@
 # \<scary-cube\>
 
-Rubik's Cube implemented as Polymer Element.
+Rubik's Cube implemented as web component based on lit-element.
 
 Needs to be sized (best by fitting it into a parent element) to correctly display and scale.
 

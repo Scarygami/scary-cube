@@ -1,6 +1,6 @@
 {
   "name": "@scarygami/scary-cube",
-  "version": "1.0.7",
+  "version": "2.0.0-dev.1",
   "description": "scary-cube: Polymer Rubik's Cube",
   "main": "scary-cube.js",
   "homepage": "https://github.com/Scarygami/scary-cube",
@@ -11,14 +11,14 @@
   "author": "Gerwin Sturm",
   "license": "Apache-2.0",
   "dependencies": {
-    "@polymer/lit-element": "^0.5.2",
+    "@polymer/lit-element": ">=0.6.0-dev.5 <2.0.0",
     "@polymer/polymer": "^3.0.0",
     "resize-observer-polyfill": "^1.5.0"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^3.0.0-pre.21",
-    "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
-    "@webcomponents/webcomponentsjs": "^2.1.0",
+    "@polymer/iron-demo-helpers": "^3.0.0-pre.25",
+    "@webcomponents/webcomponentsjs": "^2.1.1",
     "wct-browser-legacy": "^1.0.0"
   }
 }
