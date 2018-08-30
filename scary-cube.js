@@ -413,12 +413,11 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     this._resizeObserver.observe(this);
   }
 
-  firstRendered() {
+  firstUpdated() {
     this._viewport = this.shadowRoot.getElementById('viewport');
   }
 
-  update(changedProperties) {
-    super.update();
+  updated(changedProperties) {
     if (changedProperties.has('noGestures')) {
       if (this.noGestures) {
         Gestures.removeListener(this, 'track', this._boundTrackHandler);
