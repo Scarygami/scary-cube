@@ -317,6 +317,10 @@ const hintClasses = {
  */
 class ScaryCube extends GestureEventListeners(LitElement) {
 
+  static get is() {
+    return 'scary-cube';
+  }
+
   static get properties() {
     return {
       _faces: Array,
@@ -324,6 +328,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       _rotX: Number,
       _rotY: Number,
       _moveClass: String,
+      _hinting: Boolean,
 
       /**
        * Disables the display of labels on the center faces.
@@ -460,6 +465,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     this._rotX = -25;
     this._rotY = -35;
     this._scaleFactor = 1;
+    this._hinting = false;
     this.noGestures = false;
     this.noFaceLabels = false;
   }
@@ -681,7 +687,9 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         <div id="cube" style=${cubeStyle}>
         <div id="slice" class=${this._moveClass} @transitionend=${this._boundTransitionHandler}>
             ${this._faces.map((f) => html`
-              <div class=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} ?hidden=${!f.moving}></div>`
+              <div class=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} ?hidden=${!f.moving}>
+                ${(this.noFaceLabels === false && this._hinting && f.vPos === 'middle' && f.hPos === 'center') ? html`${f.side}` : html``}
+              </div>`
             )}
           </div>
           ${this._faces.map((f) => html`
@@ -962,4 +970,4 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 }
 
-window.customElements.define('scary-cube', ScaryCube);
+window.customElements.define(ScaryCube.is, ScaryCube);
