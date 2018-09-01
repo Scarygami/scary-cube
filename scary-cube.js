@@ -222,6 +222,63 @@ const transitionClasses = {
   'y2': 'move-slow move-y2',
 };
 
+const hintClasses = {
+  'U': 'hint hint-yc',
+  "U'": 'hint hint-ycc',
+  'U2': 'hint hint-yc',
+  'u': 'hint hint-yc',
+  "u'": 'hint hint-ycc',
+  'u2': 'hint hint-yc',
+  'E': 'hint hint-ycc',
+  "E'": 'hint hint-yc',
+  'E2': 'hint hint-yc',
+  'D': 'hint hint-ycc',
+  "D'": 'hint hint-yc',
+  'D2': 'hint hint-yc',
+  'd': 'hint hint-ycc',
+  "d'": 'hint hint-yc',
+  'd2': 'hint hint-yc',
+  'M': 'hint hint-xcc',
+  "M'": 'hint hint-xc',
+  'M2': 'hint hint-xc',
+  'L': 'hint hint-xcc',
+  "L'": 'hint hint-xc',
+  'L2': 'hint hint-xc',
+  'l': 'hint hint-xcc',
+  "l'": 'hint hint-xc',
+  'l2': 'hint hint-xc',
+  'R': 'hint hint-xc',
+  "R'": 'hint hint-xcc',
+  'R2': 'hint hint-xc',
+  'r': 'hint hint-xc',
+  "r'": 'hint hint-xcc',
+  'r2': 'hint hint-xc',
+  'B': 'hint hint-zcc',
+  "B'": 'hint hint-zc',
+  'B2': 'hint hint-zc',
+  'b': 'hint hint-zcc',
+  "b'": 'hint hint-zc',
+  'b2': 'hint hint-zc',
+  'F': 'hint hint-zc',
+  "F'": 'hint hint-zcc',
+  'F2': 'hint hint-zc',
+  'f': 'hint hint-zc',
+  "f'": 'hint hint-zcc',
+  'f2': 'hint hint-zc',
+  'S': 'hint hint-zc',
+  "S'": 'hint hint-zcc',
+  'S2': 'hint hint-zc',
+  'x': 'hint hint-xc',
+  "x'": 'hint hint-xcc',
+  'x2': 'hint hint-xc',
+  'z': 'hint hint-zc',
+  "z'": 'hint hint-zcc',
+  'z2': 'hint hint-zc',
+  'y': 'hint hint-yc',
+  "y'": 'hint hint-ycc',
+  'y2': 'hint hint-yc',
+};
+
 /**
  * `scary-cube`
  *
@@ -562,7 +619,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
           transform: rotateY(-90deg);
         }
         .move-y2 {
-          transform: rotateY(180deg);
+          transform: rotateY(-180deg);
         }
         .move-zc {
           transform: rotateZ(90deg);
@@ -571,7 +628,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
           transform: rotateZ(-90deg);
         }
         .move-z2 {
-          transform: rotateZ(180deg);
+          transform: rotateZ(-180deg);
         }
         .move-xc {
           transform: rotateX(90deg);
@@ -580,7 +637,29 @@ class ScaryCube extends GestureEventListeners(LitElement) {
           transform: rotateX(-90deg);
         }
         .move-x2 {
-          transform: rotateX(180deg);
+          transform: rotateX(-180deg);
+        }
+
+        .hint {
+          transition: all var(--cube-speed, 0.2s) ease;
+        }
+        .hint-ycc {
+          transform: rotateY(30deg);
+        }
+        .hint-yc {
+          transform: rotateY(-30deg);
+        }
+        .hint-zc {
+          transform: rotateZ(30deg);
+        }
+        .hint-zcc {
+          transform: rotateZ(-30deg);
+        }
+        .hint-xc {
+          transform: rotateX(30deg);
+        }
+        .hint-xcc {
+          transform: rotateX(-30deg);
         }
       </style>`;
 
@@ -713,6 +792,26 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   /**
+   * Displays a hint how to perform a move
+   *
+   * @param {String} move Move to perform in SiGN notation
+   */
+  hint(move) {
+    if (!this._queue) {
+      this._queue = [];
+    }
+    if (!transitionClasses[move]) {
+      // invalid move
+      return;
+    }
+    this._queue.push({move: move, hint: true});
+    if (!this.moving) {
+      this.moving = true;
+      afterNextRender(this, this._boundMoveHandler);
+    }
+  }
+
+  /**
    * Sets the orientation of the cube.
    *
    * @param {Number} rotX Rotation around x-axis as value between -180° and +180°
@@ -750,16 +849,26 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   _performMove() {
     if (!this._queue || this._queue.length === 0) {
       this.moving = false;
-      if (this.isSolved) {
+      if (!this._hinting && this.isSolved) {
         this.dispatchEvent(new CustomEvent('cube-solved'));
       }
       return;
     }
 
+    if (this._hinting) {
+      // Reset cube before performing the move
+      this._faces = this._newFaces;
+      this._hinting = false;
+      this._moveClass = '';
+      afterNextRender(this, this._boundMoveHandler);
+      return;
+    }
+
     const move = this._queue.shift();
-    if (!move) {
-      // queue is empty, stop for now
-      this.moving = false;
+
+    if (move.hint && this._queue.length > 0) {
+      // hint moves are ignored when other moves are in queue
+      afterNextRender(this, this._boundMoveHandler);
       return;
     }
 
@@ -816,7 +925,12 @@ class ScaryCube extends GestureEventListeners(LitElement) {
       });
     });
 
-    if (move.silent || !transitionClasses[move.move]) {
+    if (move.hint) {
+      this._hinting = true;
+      this._newFaces = JSON.parse(JSON.stringify(this._faces));
+      this._faces = originalFaces;
+      this._moveClass = hintClasses[move.move];
+    } else if (move.silent || !transitionClasses[move.move]) {
       this._faces = newFaces;
       this.dispatchEvent(new CustomEvent('move-finished'));
       afterNextRender(this, this._boundMoveHandler);
@@ -829,9 +943,11 @@ class ScaryCube extends GestureEventListeners(LitElement) {
 
   _transitionHandler() {
     if (this.moving) {
-      this._faces = this._newFaces;
-      this._moveClass = '';
-      this.dispatchEvent(new CustomEvent('move-finished'));
+      if (!this._hinting) {
+        this._faces = this._newFaces;
+        this._moveClass = '';
+        this.dispatchEvent(new CustomEvent('move-finished'));
+      }
       afterNextRender(this, this._boundMoveHandler);
     }
   }
