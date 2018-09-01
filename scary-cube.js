@@ -174,22 +174,22 @@ const transitionClasses = {
   'u2': 'move-slow move-y2',
   'E': 'move-fast move-ycc',
   "E'": 'move-fast move-yc',
-  'E2': 'move-slow move-y2',
+  'E2': 'move-slow move-y2cc',
   'D': 'move-fast move-ycc',
   "D'": 'move-fast move-yc',
-  'D2': 'move-slow move-y2',
+  'D2': 'move-slow move-y2cc',
   'd': 'move-fast move-ycc',
   "d'": 'move-fast move-yc',
-  'd2': 'move-slow move-y2',
+  'd2': 'move-slow move-y2cc',
   'M': 'move-fast move-xcc',
   "M'": 'move-fast move-xc',
-  'M2': 'move-slow move-x2',
+  'M2': 'move-slow move-x2cc',
   'L': 'move-fast move-xcc',
   "L'": 'move-fast move-xc',
-  'L2': 'move-slow move-x2',
+  'L2': 'move-slow move-x2cc',
   'l': 'move-fast move-xcc',
   "l'": 'move-fast move-xc',
-  'l2': 'move-slow move-x2',
+  'l2': 'move-slow move-x2cc',
   'R': 'move-fast move-xc',
   "R'": 'move-fast move-xcc',
   'R2': 'move-slow move-x2',
@@ -198,10 +198,10 @@ const transitionClasses = {
   'r2': 'move-slow move-x2',
   'B': 'move-fast move-zcc',
   "B'": 'move-fast move-zc',
-  'B2': 'move-slow move-z2',
+  'B2': 'move-slow move-z2cc',
   'b': 'move-fast move-zcc',
   "b'": 'move-fast move-zc',
-  'b2': 'move-slow move-z2',
+  'b2': 'move-slow move-z2cc',
   'F': 'move-fast move-zc',
   "F'": 'move-fast move-zcc',
   'F2': 'move-slow move-z2',
@@ -231,22 +231,22 @@ const hintClasses = {
   'u2': 'hint hint-yc',
   'E': 'hint hint-ycc',
   "E'": 'hint hint-yc',
-  'E2': 'hint hint-yc',
+  'E2': 'hint hint-ycc',
   'D': 'hint hint-ycc',
   "D'": 'hint hint-yc',
-  'D2': 'hint hint-yc',
+  'D2': 'hint hint-ycc',
   'd': 'hint hint-ycc',
   "d'": 'hint hint-yc',
-  'd2': 'hint hint-yc',
+  'd2': 'hint hint-ycc',
   'M': 'hint hint-xcc',
   "M'": 'hint hint-xc',
-  'M2': 'hint hint-xc',
+  'M2': 'hint hint-xcc',
   'L': 'hint hint-xcc',
   "L'": 'hint hint-xc',
-  'L2': 'hint hint-xc',
+  'L2': 'hint hint-xcc',
   'l': 'hint hint-xcc',
   "l'": 'hint hint-xc',
-  'l2': 'hint hint-xc',
+  'l2': 'hint hint-xcc',
   'R': 'hint hint-xc',
   "R'": 'hint hint-xcc',
   'R2': 'hint hint-xc',
@@ -255,10 +255,10 @@ const hintClasses = {
   'r2': 'hint hint-xc',
   'B': 'hint hint-zcc',
   "B'": 'hint hint-zc',
-  'B2': 'hint hint-zc',
+  'B2': 'hint hint-zcc',
   'b': 'hint hint-zcc',
   "b'": 'hint hint-zc',
-  'b2': 'hint hint-zc',
+  'b2': 'hint hint-zcc',
   'F': 'hint hint-zc',
   "F'": 'hint hint-zcc',
   'F2': 'hint hint-zc',
@@ -621,6 +621,9 @@ class ScaryCube extends GestureEventListeners(LitElement) {
         .move-y2 {
           transform: rotateY(-180deg);
         }
+        .move-y2cc {
+          transform: rotateY(180deg);
+        }
         .move-zc {
           transform: rotateZ(90deg);
         }
@@ -628,6 +631,9 @@ class ScaryCube extends GestureEventListeners(LitElement) {
           transform: rotateZ(-90deg);
         }
         .move-z2 {
+          transform: rotateZ(180deg);
+        }
+        .move-z2cc {
           transform: rotateZ(-180deg);
         }
         .move-xc {
@@ -637,6 +643,9 @@ class ScaryCube extends GestureEventListeners(LitElement) {
           transform: rotateX(-90deg);
         }
         .move-x2 {
+          transform: rotateX(180deg);
+        }
+        .move-x2cc {
           transform: rotateX(-180deg);
         }
 
@@ -644,22 +653,22 @@ class ScaryCube extends GestureEventListeners(LitElement) {
           transition: all var(--cube-speed, 0.2s) ease;
         }
         .hint-ycc {
-          transform: rotateY(30deg);
+          transform: rotateY(20deg);
         }
         .hint-yc {
-          transform: rotateY(-30deg);
+          transform: rotateY(-20deg);
         }
         .hint-zc {
-          transform: rotateZ(30deg);
+          transform: rotateZ(20deg);
         }
         .hint-zcc {
-          transform: rotateZ(-30deg);
+          transform: rotateZ(-20deg);
         }
         .hint-xc {
-          transform: rotateX(30deg);
+          transform: rotateX(20deg);
         }
         .hint-xcc {
-          transform: rotateX(-30deg);
+          transform: rotateX(-20deg);
         }
       </style>`;
 
