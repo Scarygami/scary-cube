@@ -829,6 +829,18 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   /**
+   * Removes a currently displayed hint
+   */
+  removeHint() {
+    if (this._hinting && !this.moving) {
+      this._faces = this._newFaces;
+      this._hinting = false;
+      this._moveClass = '';
+      return;
+    }
+  }
+
+  /**
    * Sets the orientation of the cube.
    *
    * @param {Number} rotX Rotation around x-axis as value between -180° and +180°
