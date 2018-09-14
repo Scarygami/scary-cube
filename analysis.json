@@ -13,11 +13,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 314,
+              "line": 376,
               "column": 2
             },
             "end": {
-              "line": 325,
+              "line": 387,
               "column": 3
             }
           },
@@ -34,11 +34,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 334,
+              "line": 396,
               "column": 2
             },
             "end": {
-              "line": 336,
+              "line": 398,
               "column": 3
             }
           },
@@ -55,11 +55,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 264,
+              "line": 325,
               "column": 6
             },
             "end": {
-              "line": 264,
+              "line": 325,
               "column": 19
             }
           },
@@ -76,11 +76,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 265,
+              "line": 326,
               "column": 6
             },
             "end": {
-              "line": 265,
+              "line": 326,
               "column": 26
             }
           },
@@ -97,11 +97,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 266,
+              "line": 327,
               "column": 6
             },
             "end": {
-              "line": 266,
+              "line": 327,
               "column": 19
             }
           },
@@ -118,11 +118,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 267,
+              "line": 328,
               "column": 6
             },
             "end": {
-              "line": 267,
+              "line": 328,
               "column": 19
             }
           },
@@ -139,11 +139,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 268,
+              "line": 329,
               "column": 6
             },
             "end": {
-              "line": 268,
+              "line": 329,
               "column": 24
             }
           },
@@ -154,17 +154,38 @@
           }
         },
         {
+          "name": "_hinting",
+          "type": "boolean | null | undefined",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 330,
+              "column": 6
+            },
+            "end": {
+              "line": 330,
+              "column": 23
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "attributeType": "Boolean"
+            }
+          }
+        },
+        {
           "name": "noFaceLabels",
           "type": "boolean | null | undefined",
           "description": "Disables the display of labels on the center faces.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 273,
+              "line": 335,
               "column": 6
             },
             "end": {
-              "line": 277,
+              "line": 339,
               "column": 7
             }
           },
@@ -181,11 +202,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 282,
+              "line": 344,
               "column": 6
             },
             "end": {
-              "line": 286,
+              "line": 348,
               "column": 7
             }
           },
@@ -198,16 +219,97 @@
       ],
       "methods": [
         {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 472,
+              "column": 2
+            },
+            "end": {
+              "line": 476,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "firstUpdated",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 478,
+              "column": 2
+            },
+            "end": {
+              "line": 480,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "updated",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 482,
+              "column": 2
+            },
+            "end": {
+              "line": 490,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "changedProperties"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "render",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 492,
+              "column": 2
+            },
+            "end": {
+              "line": 701,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
           "name": "_viewportStyle",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 610,
+              "line": 703,
               "column": 2
             },
             "end": {
-              "line": 612,
+              "line": 705,
               "column": 3
             }
           },
@@ -224,11 +326,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 614,
+              "line": 707,
               "column": 2
             },
             "end": {
-              "line": 618,
+              "line": 711,
               "column": 3
             }
           },
@@ -251,11 +353,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 620,
+              "line": 713,
               "column": 2
             },
             "end": {
-              "line": 622,
+              "line": 715,
               "column": 3
             }
           },
@@ -276,16 +378,36 @@
           ]
         },
         {
+          "name": "disconnectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 717,
+              "column": 2
+            },
+            "end": {
+              "line": 720,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
           "name": "_resizeHandler",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 629,
+              "line": 722,
               "column": 2
             },
             "end": {
-              "line": 645,
+              "line": 738,
               "column": 3
             }
           },
@@ -305,11 +427,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 647,
+              "line": 740,
               "column": 2
             },
             "end": {
-              "line": 667,
+              "line": 760,
               "column": 3
             }
           },
@@ -329,11 +451,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 675,
+              "line": 768,
               "column": 2
             },
             "end": {
-              "line": 694,
+              "line": 787,
               "column": 3
             }
           },
@@ -360,11 +482,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 702,
+              "line": 795,
               "column": 2
             },
             "end": {
-              "line": 715,
+              "line": 808,
               "column": 3
             }
           },
@@ -386,16 +508,62 @@
           }
         },
         {
+          "name": "hint",
+          "description": "Displays a hint how to perform a move",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 815,
+              "column": 2
+            },
+            "end": {
+              "line": 828,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "move",
+              "type": "String",
+              "description": "Move to perform in SiGN notation"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "name": "removeHint",
+          "description": "Removes a currently displayed hint",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 833,
+              "column": 2
+            },
+            "end": {
+              "line": 840,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "void"
+          }
+        },
+        {
           "name": "setOrientation",
           "description": "Sets the orientation of the cube.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 723,
+              "line": 848,
               "column": 2
             },
             "end": {
-              "line": 726,
+              "line": 851,
               "column": 3
             }
           },
@@ -422,11 +590,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 731,
+              "line": 856,
               "column": 2
             },
             "end": {
-              "line": 738,
+              "line": 863,
               "column": 3
             }
           },
@@ -442,11 +610,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 752,
+              "line": 877,
               "column": 2
             },
             "end": {
-              "line": 830,
+              "line": 970,
               "column": 3
             }
           },
@@ -462,11 +630,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 832,
+              "line": 972,
               "column": 2
             },
             "end": {
-              "line": 839,
+              "line": 981,
               "column": 3
             }
           },
@@ -487,11 +655,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 260,
+          "line": 317,
           "column": 0
         },
         "end": {
-          "line": 840,
+          "line": 982,
           "column": 1
         }
       },
@@ -504,11 +672,11 @@
           "description": "Disables the display of labels on the center faces.",
           "sourceRange": {
             "start": {
-              "line": 273,
+              "line": 335,
               "column": 6
             },
             "end": {
-              "line": 277,
+              "line": 339,
               "column": 7
             }
           },
@@ -520,11 +688,11 @@
           "description": "Disables gesture events.",
           "sourceRange": {
             "start": {
-              "line": 282,
+              "line": 344,
               "column": 6
             },
             "end": {
-              "line": 286,
+              "line": 348,
               "column": 7
             }
           },
