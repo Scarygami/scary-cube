@@ -390,12 +390,19 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   /**
    * Returns or sets the current state of the cube.
    *
+   * Accepts an array of faces or a cube.js compatible string.
+   *
    * Throws erros when trying to set an invalid state.
    *
    * @return {Array}
    */
   get faces() {
-    return JSON.parse(JSON.stringify(this._faces));
+    return this._faces.map((face) => ({
+      side: face.side,
+      vPos: face.vPos,
+      hPos: face.hPos,
+      color: face.color
+    }));
   }
 
   set faces(input) {
@@ -408,6 +415,11 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     this._setFaces(input);
   }
 
+  /**
+   * Return the current state of the cube as a cube.js compatible string.
+   *
+   * @return {String}
+   */
   get facesAsString() {
     const faces = [];
     ['U', 'R', 'F', 'D', 'L', 'B'].forEach(side => {

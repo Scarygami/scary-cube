@@ -20,6 +20,81 @@
     </test-fixture>
 
     <script type="module">
+      const scrambledFaces = [
+        {'side': 'B', 'vPos': 'bottom', 'hPos': 'left', 'color': 'white'},
+        {'side': 'F', 'vPos': 'bottom', 'hPos': 'center', 'color': 'white'},
+        {'side': 'D', 'vPos': 'bottom', 'hPos': 'left', 'color': 'white'},
+        {'side': 'D', 'vPos': 'middle', 'hPos': 'left', 'color': 'white'},
+        {'side': 'U', 'vPos': 'middle', 'hPos': 'center', 'color': 'white'},
+        {'side': 'D', 'vPos': 'bottom', 'hPos': 'center', 'color': 'white'},
+        {'side': 'R', 'vPos': 'top', 'hPos': 'right', 'color': 'white'},
+        {'side': 'R', 'vPos': 'middle', 'hPos': 'right', 'color': 'white'},
+        {'side': 'F', 'vPos': 'top', 'hPos': 'right', 'color': 'white'},
+        {'side': 'L', 'vPos': 'top', 'hPos': 'right', 'color': 'yellow'},
+        {'side': 'U', 'vPos': 'middle', 'hPos': 'left', 'color': 'yellow'},
+        {'side': 'D', 'vPos': 'top', 'hPos': 'left', 'color': 'yellow'},
+        {'side': 'D', 'vPos': 'middle', 'hPos': 'right', 'color': 'yellow'},
+        {'side': 'D', 'vPos': 'middle', 'hPos': 'center', 'color': 'yellow'},
+        {'side': 'U', 'vPos': 'top', 'hPos': 'center', 'color': 'yellow'},
+        {'side': 'L', 'vPos': 'top', 'hPos': 'left', 'color': 'yellow'},
+        {'side': 'U', 'vPos': 'middle', 'hPos': 'right', 'color': 'yellow'},
+        {'side': 'D', 'vPos': 'top', 'hPos': 'right', 'color': 'yellow'},
+        {'side': 'U', 'vPos': 'bottom', 'hPos': 'right', 'color': 'red'},
+        {'side': 'B', 'vPos': 'bottom', 'hPos': 'center', 'color': 'red'},
+        {'side': 'L', 'vPos': 'bottom', 'hPos': 'left', 'color': 'red'},
+        {'side': 'F', 'vPos': 'middle', 'hPos': 'left', 'color': 'red'},
+        {'side': 'R', 'vPos': 'middle', 'hPos': 'center', 'color': 'red'},
+        {'side': 'R', 'vPos': 'middle', 'hPos': 'left', 'color': 'red'},
+        {'side': 'F', 'vPos': 'bottom', 'hPos': 'left', 'color': 'red'},
+        {'side': 'B', 'vPos': 'top', 'hPos': 'center', 'color': 'red'},
+        {'side': 'F', 'vPos': 'bottom', 'hPos': 'right', 'color': 'red'},
+        {'side': 'D', 'vPos': 'bottom', 'hPos': 'right', 'color': 'orange'},
+        {'side': 'L', 'vPos': 'bottom', 'hPos': 'center', 'color': 'orange'},
+        {'side': 'B', 'vPos': 'top', 'hPos': 'left', 'color': 'orange'},
+        {'side': 'L', 'vPos': 'middle', 'hPos': 'left', 'color': 'orange'},
+        {'side': 'L', 'vPos': 'middle', 'hPos': 'center', 'color': 'orange'},
+        {'side': 'U', 'vPos': 'bottom', 'hPos': 'center', 'color': 'orange'},
+        {'side': 'U', 'vPos': 'top', 'hPos': 'left', 'color': 'orange'},
+        {'side': 'R', 'vPos': 'bottom', 'hPos': 'center', 'color': 'orange'},
+        {'side': 'U', 'vPos': 'bottom', 'hPos': 'left', 'color': 'orange'},
+        {'side': 'U', 'vPos': 'top', 'hPos': 'right', 'color': 'green'},
+        {'side': 'B', 'vPos': 'middle', 'hPos': 'left', 'color': 'green'},
+        {'side': 'R', 'vPos': 'top', 'hPos': 'left', 'color': 'green'},
+        {'side': 'F', 'vPos': 'top', 'hPos': 'center', 'color': 'green'},
+        {'side': 'F', 'vPos': 'middle', 'hPos': 'center', 'color': 'green'},
+        {'side': 'L', 'vPos': 'middle', 'hPos': 'right', 'color': 'green'},
+        {'side': 'F', 'vPos': 'top', 'hPos': 'left', 'color': 'green'},
+        {'side': 'L', 'vPos': 'top', 'hPos': 'center', 'color': 'green'},
+        {'side': 'L', 'vPos': 'bottom', 'hPos': 'right', 'color': 'green'},
+        {'side': 'B', 'vPos': 'bottom', 'hPos': 'right', 'color': 'blue'},
+        {'side': 'D', 'vPos': 'top', 'hPos': 'center', 'color': 'blue'},
+        {'side': 'R', 'vPos': 'bottom', 'hPos': 'right', 'color': 'blue'},
+        {'side': 'F', 'vPos': 'middle', 'hPos': 'right', 'color': 'blue'},
+        {'side': 'B', 'vPos': 'middle', 'hPos': 'center', 'color': 'blue'},
+        {'side': 'B', 'vPos': 'middle', 'hPos': 'right', 'color': 'blue'},
+        {'side': 'R', 'vPos': 'bottom', 'hPos': 'left', 'color': 'blue'},
+        {'side': 'R', 'vPos': 'top', 'hPos': 'center', 'color': 'blue'},
+        {'side': 'B', 'vPos': 'top', 'hPos': 'right', 'color': 'blue'}
+      ];
+
+      const scrambledString = 'LDFDUDLLRFBURRUBLBFFURFBRURDBDUDDUULDFDLLFRLFLRBFBBURB';
+
+      function faceSort (a, b) {
+        if (a.side !== b.side) {
+          return (a.side < b.side) ? -1 : 1;
+        }
+        if (a.vPos !== b.vPos) {
+          return (a.vPos < b.vPos) ? -1 : 1;
+        }
+        if (a.hPos !== b.hPos) {
+          return (a.hPos < b.hPos) ? -1 : 1;
+        }
+        if (a.color !== b.color) {
+          return (a.color < b.color) ? -1 : 1;
+        }
+        return 0;
+      }
+
       suite('scary-cube', () => {
         var element;
 
@@ -181,6 +256,26 @@
               element.faces = faces;
             });
           });
+        });
+
+        suite('cube.js string methods', () => {
+          test('getter works on initial state', () => {
+            const faces = element.facesAsString;
+            assert.equal(faces, 'UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB');
+          });
+
+          test('getter works on scrambled state', () => {
+            element.faces = scrambledFaces;
+            const faces = element.facesAsString;
+            assert.equal(faces, scrambledString);
+          });
+
+          test('setter works', () => {
+            element.faces = scrambledString;
+            const faces = element.faces.sort(faceSort);
+            scrambledFaces.sort(faceSort);
+            assert.deepEqual(faces, scrambledFaces);
+          })
         });
       });
     </script>
