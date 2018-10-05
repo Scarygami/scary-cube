@@ -399,12 +399,33 @@ class ScaryCube extends GestureEventListeners(LitElement) {
   }
 
   set faces(input) {
+    if (input.length !== 54) {
+      throw new Error('Faces needs to be an array or string of length 54.')
+    }
+    if (typeof input === 'string' || input instanceof String) {
+      input = this._facesFromString(input);
+    }
+    this._setFaces(input);
+  }
+
+  get facesAsString() {
+    const faces = [];
+    ['U', 'R', 'F', 'D', 'L', 'B'].forEach(side => {
+      vPos.forEach(v => {
+        hPos.forEach(h => {
+          const face = this._faces.find((f)=> f.side === side && f.vPos === v && f.hPos === h);
+          const s = sides[colors.indexOf(face.color)];
+          faces.push(s);
+        });
+      });
+    });
+    return faces.join('');
+  }
+
+  _setFaces(input) {
     const faces = [];
     const check = {};
     const colorCheck = [0, 0, 0, 0, 0, 0];
-    if (input.length !== 54) {
-      throw new Error('Faces needs to be an array of length 54.')
-    }
 
     input.forEach((face) => {
       if (!face.side || !face.vPos || !face.hPos || !face.color) {
@@ -449,6 +470,28 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     }
     this._moveClass = '';
     this._faces = faces;
+  }
+
+  _facesFromString(input) {
+    const faces = [];
+    const faceCubes = vPos.length * hPos.length;
+    ['U', 'R', 'F', 'D', 'L', 'B'].forEach((side, i)=> {
+      vPos.forEach((v, vi)=> {
+        hPos.forEach((h, hi)=> {
+          const index = i * faceCubes + vi * vPos.length + hi;
+          const s = input.charAt(index);
+          const color = colors[sides.indexOf(s)];
+          faces.push({
+            side: side,
+            vPos: v,
+            hPos: h,
+            color: color,
+            moving: false
+          });
+        });
+      });
+    });
+    return faces;
   }
 
   constructor() {
