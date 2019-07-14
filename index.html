@@ -9,142 +9,131 @@
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
     <script type="module">
-      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
-      import '@polymer/iron-demo-helpers/demo-snippet';
       import '@scarygami/scary-cube/scary-cube';
     </script>
 
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
+      <style is="custom-style">
+        body {
+          font-family: 'Roboto', 'Noto', sans-serif;
+          font-size: 14px;
+          margin: 0;
+          padding: 24px;
+          background-color: #fafafa;
+        }
+
+        .container {
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -ms-flex-direction: column;
+          -webkit-flex-direction: column;
+          flex-direction: column;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .demo {
+          display: block;
+
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                      0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          margin-bottom: 40px;
+        }
+
         scary-cube {
           width: 100%;
           height: 500px;
-        }
-
-        span {
-          white-space: nowrap;
-          margin-right: 0.5em;
         }
 
         button {
           width: 2.5em;
         }
 
-        #sequence {
+        #sequence, #start, #reset {
           width: 100%;
         }
-        #start, #reset {
-          width: 5em;
-        }
-
       </style>
     </custom-style>
   </head>
   <body>
-    <div class="vertical-section-container centered">
+    <div class="container">
       <h3>Basic scary-cube demo</h3>
-      <demo-snippet>
-        <template>
-          <scary-cube></scary-cube>
-        </template>
-      </demo-snippet>
-      <div class="horizontal-section-container">
-        <span>
-          <button>U</button>
-          <button>U'</button>
-          <button>U2</button>
-        </span>
-        <span>
-          <button>D</button>
-          <button>D'</button>
-          <button>D2</button>
-        </span>
-        <span>
-          <button>L</button>
-          <button>L'</button>
-          <button>L2</button>
-        </span>
-        <span>
-          <button>R</button>
-          <button>R'</button>
-          <button>R2</button>
-        </span>
-        <span>
-          <button>F</button>
-          <button>F'</button>
-          <button>F2</button>
-        </span>
-        <span>
-          <button>B</button>
-          <button>B'</button>
-          <button>B2</button>
-        </span>
-        <span>
-          <button>u</button>
-          <button>u'</button>
-          <button>u2</button>
-        </span>
-        <span>
-          <button>d</button>
-          <button>d'</button>
-          <button>d2</button>
-        </span>
-        <span>
-          <button>l</button>
-          <button>l'</button>
-          <button>l2</button>
-        </span>
-        <span>
-          <button>r</button>
-          <button>r'</button>
-          <button>r2</button>
-        </span>
-        <span>
-          <button>f</button>
-          <button>f'</button>
-          <button>f2</button>
-        </span>
-        <span>
-          <button>b</button>
-          <button>b'</button>
-          <button>b2</button>
-        </span>
-        <span>
-          <button>M</button>
-          <button>M'</button>
-          <button>M2</button>
-        </span>
-        <span>
-          <button>E</button>
-          <button>E'</button>
-          <button>E2</button>
-        </span>
-        <span>
-          <button>S</button>
-          <button>S'</button>
-          <button>S2</button>
-        </span>
-        <span>
-          <button>x</button>
-          <button>x'</button>
-          <button>x2</button>
-        </span>
-        <span>
-          <button>y</button>
-          <button>y'</button>
-          <button>y2</button>
-        </span>
-        <span>
-          <button>z</button>
-          <button>z'</button>
-          <button>z2</button>
-        </span>
-      </div><br>
-      <div>
-        <input id="sequence" value="D' U' L R2 F' D' R F' D F2 L B D2 L2 B' R2 F2 B R B F2 L2 R B' F2"><br>
-        <button id="start">Start</button>
-        <button id="reset">Reset</button>
+      <div class="demo">
+        <scary-cube></scary-cube>
       </div>
+      <table>
+        <tr>
+          <td><button>U</button></td>
+          <td><button>D</button></td>
+          <td><button>L</button></td>
+          <td><button>R</button></td>
+          <td><button>F</button></td>
+          <td><button>B</button></td>
+          <td><button>u</button></td>
+          <td><button>d</button></td>
+          <td><button>l</button></td>
+          <td><button>r</button></td>
+          <td><button>f</button></td>
+          <td><button>b</button></td>
+          <td><button>M</button></td>
+          <td><button>E</button></td>
+          <td><button>S</button></td>
+          <td><button>x</button></td>
+          <td><button>y</button></td>
+          <td><button>z</button></td>
+        </tr>
+        <tr>
+          <td><button>U'</button></td>
+          <td><button>D'</button></td>
+          <td><button>L'</button></td>
+          <td><button>R'</button></td>
+          <td><button>F'</button></td>
+          <td><button>B'</button></td>
+          <td><button>u'</button></td>
+          <td><button>d'</button></td>
+          <td><button>l'</button></td>
+          <td><button>r'</button></td>
+          <td><button>f'</button></td>
+          <td><button>b'</button></td>
+          <td><button>M'</button></td>
+          <td><button>E'</button></td>
+          <td><button>S'</button></td>
+          <td><button>x'</button></td>
+          <td><button>y'</button></td>
+          <td><button>z'</button></td>
+        </tr>
+        <tr>
+          <td><button>U2</button></td>
+          <td><button>D2</button></td>
+          <td><button>L2</button></td>
+          <td><button>R2</button></td>
+          <td><button>F2</button></td>
+          <td><button>B2</button></td>
+          <td><button>u2</button></td>
+          <td><button>d2</button></td>
+          <td><button>l2</button></td>
+          <td><button>r2</button></td>
+          <td><button>f2</button></td>
+          <td><button>b2</button></td>
+          <td><button>M2</button></td>
+          <td><button>E2</button></td>
+          <td><button>S2</button></td>
+          <td><button>x2</button></td>
+          <td><button>y2</button></td>
+          <td><button>z2</button></td>
+        </tr>
+        <tr>
+          <td colspan="14"><input id="sequence" value="D' U' L R2 F' D' R F' D F2 L B D2 L2 B' R2 F2 B R B F2 L2 R B' F2"></td>
+          <td colspan="2"><button id="start">Start</button></td>
+          <td colspan="2"><button id="reset">Reset</button></td>
+        </tr>
+      </table>
     </div>
     <script>
       (function () {

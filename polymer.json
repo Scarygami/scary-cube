@@ -9,7 +9,7 @@
     "js": {"minify": true, "compile": true},
     "css": {"minify": true},
     "html": {"minify": true},
-    "bundle": false,
+    "bundle": true,
     "addServiceWorker": false,
     "addPushManifest": false
   }],
