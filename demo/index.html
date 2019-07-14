@@ -8,15 +8,42 @@
 
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
-    <script type="module">
-      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
-      import '@polymer/iron-demo-helpers/demo-snippet';
-    </script>
-
     <script type="module" src="../scary-cube.js"></script>
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
+        body {
+          font-family: 'Roboto', 'Noto', sans-serif;
+          font-size: 14px;
+          margin: 0;
+          padding: 24px;
+          background-color: #fafafa;
+        }
+
+        .container {
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -ms-flex-direction: column;
+          -webkit-flex-direction: column;
+          flex-direction: column;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .demo {
+          display: block;
+
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                      0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          margin-bottom: 40px;
+        }
+
         scary-cube {
           width: 100%;
           height: 500px;
@@ -33,13 +60,11 @@
     </custom-style>
   </head>
   <body>
-    <div class="vertical-section-container centered">
+    <div class="container">
       <h3>Basic scary-cube demo</h3>
-      <demo-snippet>
-        <template>
-          <scary-cube></scary-cube>
-        </template>
-      </demo-snippet>
+      <div class="demo">
+        <scary-cube></scary-cube>
+      </div>
       <table>
         <tr>
           <td><button>U</button></td>

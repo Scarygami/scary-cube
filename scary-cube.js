@@ -1,4 +1,4 @@
-import {LitElement, html} from '@polymer/lit-element';
+import {LitElement, html,css } from 'lit-element';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
@@ -165,6 +165,7 @@ const allMoves = {
   z: {steps: ['F', 'S', 'B', 'B', 'B']}
 };
 
+/* eslint-disable quotes */
 const transitionClasses = {
   'U': 'move-fast move-yc',
   "U'": 'move-fast move-ycc',
@@ -278,6 +279,7 @@ const hintClasses = {
   "y'": 'hint hint-ycc',
   'y2': 'hint hint-yc',
 };
+/* eslint-enable quotes */
 
 /**
  * `scary-cube`
@@ -407,7 +409,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
 
   set faces(input) {
     if (input.length !== 54) {
-      throw new Error('Faces needs to be an array or string of length 54.')
+      throw new Error('Faces needs to be an array or string of length 54.');
     }
     if (typeof input === 'string' || input instanceof String) {
       input = this._facesFromString(input);
@@ -441,7 +443,7 @@ class ScaryCube extends GestureEventListeners(LitElement) {
 
     input.forEach((face) => {
       if (!face.side || !face.vPos || !face.hPos || !face.color) {
-        throw new Error('Each face needs to have the fields side, vPos, hPos and color.')
+        throw new Error('Each face needs to have the fields side, vPos, hPos and color.');
       }
       if (sides.indexOf(face.side) < 0) {
         throw new Error(`Encountered invalid value for side: ${face.side}`);
@@ -545,192 +547,198 @@ class ScaryCube extends GestureEventListeners(LitElement) {
     }
   }
 
+  static get styles() {
+    return css`
+      :host {
+        display: block;
+      }
+
+      #viewport {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+
+      #cube {
+        position: absolute;
+        transform-style: preserve-3d;
+        width: 300px; height: 300px;
+        transform-origin: 150px 150px;
+        top: 50%;
+        left: 50%;
+        margin-top: -150px;
+        margin-left: -150px;
+      }
+
+      #slice {
+        position: absolute;
+        transform-style: preserve-3d;
+        transform-origin: 150px 150px;
+      }
+
+      .face {
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        width: 101px;
+        height: 101px;
+        border: 4px solid black;
+        border-radius: 5px;
+        opacity: 0.9;
+        font-weight: bold;
+        text-align:center;
+        font-size: 30px;
+        padding-top:35px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .face[hidden] {
+        display: none;
+      }
+
+      .u.top.left { transform:rotateX(90deg) translate3d(0px,-100px,50px); }
+      .u.top.center { transform:rotateX(90deg) translate3d(100px,-100px,50px); }
+      .u.top.right { transform:rotateX(90deg) translate3d(200px,-100px,50px); }
+      .u.middle.left { transform:rotateX(90deg) translate3d(0px,0px,50px);}
+      .u.middle.center { transform:rotateX(90deg) translate3d(100px,0px,50px);}
+      .u.middle.right { transform:rotateX(90deg) translate3d(200px,0px,50px);}
+      .u.bottom.left { transform:rotateX(90deg) translate3d(0px,100px,50px); }
+      .u.bottom.center { transform:rotateX(90deg) translate3d(100px,100px,50px); }
+      .u.bottom.right { transform:rotateX(90deg) translate3d(200px,100px,50px); }
+
+      .d.top.left { transform:rotateX(-90deg) translate3d(0px,-100px,250px); }
+      .d.top.center { transform:rotateX(-90deg) translate3d(100px,-100px,250px); }
+      .d.top.right { transform:rotateX(-90deg) translate3d(200px,-100px,250px); }
+      .d.middle.left { transform:rotateX(-90deg) translate3d(0px,0px,250px); }
+      .d.middle.center { transform:rotateX(-90deg) translate3d(100px,0px,250px); }
+      .d.middle.right { transform:rotateX(-90deg) translate3d(200px,0px,250px); }
+      .d.bottom.left { transform:rotateX(-90deg) translate3d(0px,100px,250px); }
+      .d.bottom.center { transform:rotateX(-90deg) translate3d(100px,100px,250px); }
+      .d.bottom.right { transform:rotateX(-90deg) translate3d(200px,100px,250px); }
+
+      .f.top.left { transform: translate3d(0px,0px,150px); }
+      .f.top.center { transform: translate3d(100px,0px,150px); }
+      .f.top.right { transform: translate3d(200px,0px,150px); }
+      .f.middle.left { transform: translate3d(0px,100px,150px); }
+      .f.middle.center { transform: translate3d(100px,100px,150px); }
+      .f.middle.right { transform: translate3d(200px,100px,150px); }
+      .f.bottom.left { transform: translate3d(0px,200px,150px); }
+      .f.bottom.center{ transform: translate3d(100px,200px,150px); }
+      .f.bottom.right { transform: translate3d(200px,200px,150px); }
+
+      .b.top.left { transform:rotateY(180deg) translate3d(-200px,0px,150px);}
+      .b.top.center { transform:rotateY(180deg) translate3d(-100px,0px,150px);}
+      .b.top.right { transform:rotateY(180deg) translate3d(0px,0px,150px);}
+      .b.middle.left { transform:rotateY(180deg) translate3d(-200px,100px,150px);}
+      .b.middle.center { transform:rotateY(180deg) translate3d(-100px,100px,150px);}
+      .b.middle.right { transform:rotateY(180deg) translate3d(0px,100px,150px);}
+      .b.bottom.left { transform:rotateY(180deg) translate3d(-200px,200px,150px); }
+      .b.bottom.center { transform:rotateY(180deg) translate3d(-100px,200px,150px); }
+      .b.bottom.right { transform:rotateY(180deg) translate3d(0px,200px,150px); }
+
+      .l.top.left { transform:rotateY(-90deg) translate3d(-100px,0px,50px); }
+      .l.top.center { transform:rotateY(-90deg) translate3d(0px,0px,50px); }
+      .l.top.right { transform:rotateY(-90deg) translate3d(100px,0px,50px); }
+      .l.middle.left { transform:rotateY(-90deg) translate3d(-100px,100px,50px); }
+      .l.middle.center { transform:rotateY(-90deg) translate3d(0px,100px,50px); }
+      .l.middle.right { transform:rotateY(-90deg) translate3d(100px,100px,50px); }
+      .l.bottom.left { transform:rotateY(-90deg) translate3d(-100px,200px,50px); }
+      .l.bottom.center { transform:rotateY(-90deg) translate3d(0px,200px,50px); }
+      .l.bottom.right { transform:rotateY(-90deg) translate3d(100px,200px,50px); }
+
+      .r.top.left { transform:rotateY(90deg) translate3d(-100px,0px,250px); }
+      .r.top.center { transform:rotateY(90deg) translate3d(0px,0px,250px); }
+      .r.top.right { transform:rotateY(90deg) translate3d(100px,0px,250px); }
+      .r.middle.left { transform:rotateY(90deg) translate3d(-100px,100px,250px); }
+      .r.middle.center { transform:rotateY(90deg) translate3d(0px,100px,250px); }
+      .r.middle.right { transform:rotateY(90deg) translate3d(100px,100px,250px); }
+      .r.bottom.left { transform:rotateY(90deg) translate3d(-100px,200px,250px); }
+      .r.bottom.center { transform:rotateY(90deg) translate3d(0px,200px,250px); }
+      .r.bottom.right { transform:rotateY(90deg) translate3d(100px,200px,250px); }
+
+      .red { background-color: var(--cube-color-r, red); }
+      .blue { background-color: var(--cube-color-b, #3333FF); }
+      .green { background-color: var(--cube-color-f, green); }
+      .yellow { background-color: var(--cube-color-d, yellow); }
+      .white { background-color: var(--cube-color-u, white); }
+      .orange { background-color: var(--cube-color-l, orange); }
+
+      .move-fast {
+        transition: all var(--cube-speed, 0.2s) ease;
+      }
+      .move-slow {
+        transition: all calc(2 * var(--cube-speed, 0.2s)) ease;
+      }
+      .move-ycc {
+        transform: rotateY(90deg);
+      }
+      .move-yc {
+        transform: rotateY(-90deg);
+      }
+      .move-y2 {
+        transform: rotateY(-180deg);
+      }
+      .move-y2cc {
+        transform: rotateY(180deg);
+      }
+      .move-zc {
+        transform: rotateZ(90deg);
+      }
+      .move-zcc {
+        transform: rotateZ(-90deg);
+      }
+      .move-z2 {
+        transform: rotateZ(180deg);
+      }
+      .move-z2cc {
+        transform: rotateZ(-180deg);
+      }
+      .move-xc {
+        transform: rotateX(90deg);
+      }
+      .move-xcc {
+        transform: rotateX(-90deg);
+      }
+      .move-x2 {
+        transform: rotateX(180deg);
+      }
+      .move-x2cc {
+        transform: rotateX(-180deg);
+      }
+
+      .hint {
+        transition: all var(--cube-speed, 0.2s) ease;
+      }
+      .hint-ycc {
+        transform: rotateY(20deg);
+      }
+      .hint-yc {
+        transform: rotateY(-20deg);
+      }
+      .hint-zc {
+        transform: rotateZ(20deg);
+      }
+      .hint-zcc {
+        transform: rotateZ(-20deg);
+      }
+      .hint-xc {
+        transform: rotateX(20deg);
+      }
+      .hint-xcc {
+        transform: rotateX(-20deg);
+      }
+    `;
+  }
+
   render() {
     const style = html`
       <style>
-        :host {
-          display: block;
-        }
 
-        #viewport {
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          margin: 0;
-          padding: 0;
-        }
-
-        #cube {
-          position: absolute;
-          transform-style: preserve-3d;
-          width: 300px; height: 300px;
-          transform-origin: 150px 150px;
-          top: 50%;
-          left: 50%;
-          margin-top: -150px;
-          margin-left: -150px;
-        }
-
-        #slice {
-          position: absolute;
-          transform-style: preserve-3d;
-          transform-origin: 150px 150px;
-        }
-
-        .face {
-          display: block;
-          box-sizing: border-box;
-          position: absolute;
-          width: 101px;
-          height: 101px;
-          border: 4px solid black;
-          border-radius: 5px;
-          opacity: 0.9;
-          font-weight: bold;
-          text-align:center;
-          font-size: 30px;
-          padding-top:35px;
-          -moz-user-select: none;
-          -webkit-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-        }
-
-        .face[hidden] {
-          display: none;
-        }
-
-        .u.top.left { transform:rotateX(90deg) translate3d(0px,-100px,50px); }
-        .u.top.center { transform:rotateX(90deg) translate3d(100px,-100px,50px); }
-        .u.top.right { transform:rotateX(90deg) translate3d(200px,-100px,50px); }
-        .u.middle.left { transform:rotateX(90deg) translate3d(0px,0px,50px);}
-        .u.middle.center { transform:rotateX(90deg) translate3d(100px,0px,50px);}
-        .u.middle.right { transform:rotateX(90deg) translate3d(200px,0px,50px);}
-        .u.bottom.left { transform:rotateX(90deg) translate3d(0px,100px,50px); }
-        .u.bottom.center { transform:rotateX(90deg) translate3d(100px,100px,50px); }
-        .u.bottom.right { transform:rotateX(90deg) translate3d(200px,100px,50px); }
-
-        .d.top.left { transform:rotateX(-90deg) translate3d(0px,-100px,250px); }
-        .d.top.center { transform:rotateX(-90deg) translate3d(100px,-100px,250px); }
-        .d.top.right { transform:rotateX(-90deg) translate3d(200px,-100px,250px); }
-        .d.middle.left { transform:rotateX(-90deg) translate3d(0px,0px,250px); }
-        .d.middle.center { transform:rotateX(-90deg) translate3d(100px,0px,250px); }
-        .d.middle.right { transform:rotateX(-90deg) translate3d(200px,0px,250px); }
-        .d.bottom.left { transform:rotateX(-90deg) translate3d(0px,100px,250px); }
-        .d.bottom.center { transform:rotateX(-90deg) translate3d(100px,100px,250px); }
-        .d.bottom.right { transform:rotateX(-90deg) translate3d(200px,100px,250px); }
-
-        .f.top.left { transform: translate3d(0px,0px,150px); }
-        .f.top.center { transform: translate3d(100px,0px,150px); }
-        .f.top.right { transform: translate3d(200px,0px,150px); }
-        .f.middle.left { transform: translate3d(0px,100px,150px); }
-        .f.middle.center { transform: translate3d(100px,100px,150px); }
-        .f.middle.right { transform: translate3d(200px,100px,150px); }
-        .f.bottom.left { transform: translate3d(0px,200px,150px); }
-        .f.bottom.center{ transform: translate3d(100px,200px,150px); }
-        .f.bottom.right { transform: translate3d(200px,200px,150px); }
-
-        .b.top.left { transform:rotateY(180deg) translate3d(-200px,0px,150px);}
-        .b.top.center { transform:rotateY(180deg) translate3d(-100px,0px,150px);}
-        .b.top.right { transform:rotateY(180deg) translate3d(0px,0px,150px);}
-        .b.middle.left { transform:rotateY(180deg) translate3d(-200px,100px,150px);}
-        .b.middle.center { transform:rotateY(180deg) translate3d(-100px,100px,150px);}
-        .b.middle.right { transform:rotateY(180deg) translate3d(0px,100px,150px);}
-        .b.bottom.left { transform:rotateY(180deg) translate3d(-200px,200px,150px); }
-        .b.bottom.center { transform:rotateY(180deg) translate3d(-100px,200px,150px); }
-        .b.bottom.right { transform:rotateY(180deg) translate3d(0px,200px,150px); }
-
-        .l.top.left { transform:rotateY(-90deg) translate3d(-100px,0px,50px); }
-        .l.top.center { transform:rotateY(-90deg) translate3d(0px,0px,50px); }
-        .l.top.right { transform:rotateY(-90deg) translate3d(100px,0px,50px); }
-        .l.middle.left { transform:rotateY(-90deg) translate3d(-100px,100px,50px); }
-        .l.middle.center { transform:rotateY(-90deg) translate3d(0px,100px,50px); }
-        .l.middle.right { transform:rotateY(-90deg) translate3d(100px,100px,50px); }
-        .l.bottom.left { transform:rotateY(-90deg) translate3d(-100px,200px,50px); }
-        .l.bottom.center { transform:rotateY(-90deg) translate3d(0px,200px,50px); }
-        .l.bottom.right { transform:rotateY(-90deg) translate3d(100px,200px,50px); }
-
-        .r.top.left { transform:rotateY(90deg) translate3d(-100px,0px,250px); }
-        .r.top.center { transform:rotateY(90deg) translate3d(0px,0px,250px); }
-        .r.top.right { transform:rotateY(90deg) translate3d(100px,0px,250px); }
-        .r.middle.left { transform:rotateY(90deg) translate3d(-100px,100px,250px); }
-        .r.middle.center { transform:rotateY(90deg) translate3d(0px,100px,250px); }
-        .r.middle.right { transform:rotateY(90deg) translate3d(100px,100px,250px); }
-        .r.bottom.left { transform:rotateY(90deg) translate3d(-100px,200px,250px); }
-        .r.bottom.center { transform:rotateY(90deg) translate3d(0px,200px,250px); }
-        .r.bottom.right { transform:rotateY(90deg) translate3d(100px,200px,250px); }
-
-        .red { background-color: var(--cube-color-r, red); }
-        .blue { background-color: var(--cube-color-b, #3333FF); }
-        .green { background-color: var(--cube-color-f, green); }
-        .yellow { background-color: var(--cube-color-d, yellow); }
-        .white { background-color: var(--cube-color-u, white); }
-        .orange { background-color: var(--cube-color-l, orange); }
-
-        .move-fast {
-          transition: all var(--cube-speed, 0.2s) ease;
-        }
-        .move-slow {
-          transition: all calc(2 * var(--cube-speed, 0.2s)) ease;
-        }
-        .move-ycc {
-          transform: rotateY(90deg);
-        }
-        .move-yc {
-          transform: rotateY(-90deg);
-        }
-        .move-y2 {
-          transform: rotateY(-180deg);
-        }
-        .move-y2cc {
-          transform: rotateY(180deg);
-        }
-        .move-zc {
-          transform: rotateZ(90deg);
-        }
-        .move-zcc {
-          transform: rotateZ(-90deg);
-        }
-        .move-z2 {
-          transform: rotateZ(180deg);
-        }
-        .move-z2cc {
-          transform: rotateZ(-180deg);
-        }
-        .move-xc {
-          transform: rotateX(90deg);
-        }
-        .move-xcc {
-          transform: rotateX(-90deg);
-        }
-        .move-x2 {
-          transform: rotateX(180deg);
-        }
-        .move-x2cc {
-          transform: rotateX(-180deg);
-        }
-
-        .hint {
-          transition: all var(--cube-speed, 0.2s) ease;
-        }
-        .hint-ycc {
-          transform: rotateY(20deg);
-        }
-        .hint-yc {
-          transform: rotateY(-20deg);
-        }
-        .hint-zc {
-          transform: rotateZ(20deg);
-        }
-        .hint-zcc {
-          transform: rotateZ(-20deg);
-        }
-        .hint-xc {
-          transform: rotateX(20deg);
-        }
-        .hint-xcc {
-          transform: rotateX(-20deg);
-        }
       </style>`;
 
     const viewportStyle = this._viewportStyle(this._scaleFactor);
@@ -744,14 +752,12 @@ class ScaryCube extends GestureEventListeners(LitElement) {
             ${this._faces.map((f) => html`
               <div class=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} ?hidden=${!f.moving}>
                 ${(this.noFaceLabels === false && this._hinting && f.vPos === 'middle' && f.hPos === 'center') ? html`${f.side}` : html``}
-              </div>`
-            )}
+              </div>`)}
           </div>
           ${this._faces.map((f) => html`
             <div class=${this._faceClasslist(f.side, f.vPos, f.hPos, f.color)} ?hidden=${f.moving}>
               ${(this.noFaceLabels === false && f.vPos === 'middle' && f.hPos === 'center') ? html`${f.side}` : html``}
-            </div>`
-          )}
+            </div>`)}
         </div>
       </div>`;
   }
